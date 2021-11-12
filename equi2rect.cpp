@@ -176,9 +176,9 @@ int main(int argc, const char **argv)
 
     printf("Args : %s %s %f %f \n", input_img, out_img, pan, tilt);
 
-    Equi2Rect equi2rect(280.0, 0.0);
+    Equi2Rect equi2rect(pan, tilt);
 
-    equi2rect.img_src = cv::imread("../images/london.jpg", cv::IMREAD_COLOR);
+    equi2rect.img_src = cv::imread(input_img, cv::IMREAD_COLOR);
     if (equi2rect.img_src.empty())
     {
         std::cout << "Error: Could not load image!" << std::endl;
@@ -190,7 +190,7 @@ int main(int argc, const char **argv)
 
     printf("Time taken: %.2fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
 
-    cv::imwrite("../images/output.jpg", equi2rect.img_interp);
+    cv::imwrite(out_img, equi2rect.img_interp);
 
     return 0;
 }
