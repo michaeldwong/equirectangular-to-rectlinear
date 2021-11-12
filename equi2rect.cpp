@@ -12,15 +12,15 @@
 class Equi2Rect
 {
 public:
-    Equi2Rect()
+    Equi2Rect(float pan, float tilt)
     {
         // viewport size
         w = 1280;
         h = 720;
 
         //specify viewing direction
-        yaw = radians(90.0);   //pan
-        pitch = radians(0.0); //tilt
+        yaw = radians(pan);   //pan
+        pitch = radians(tilt); //tilt
         roll = radians(0.0);
 
         //create rotation matrix
@@ -164,7 +164,19 @@ int main(int argc, const char **argv)
 
     clock_t tStart = clock();
 
-    Equi2Rect equi2rect;
+    if (argc != 5) {
+        std::cout << "Usage: equi2rect <input image> <output image> <pan> <tilt>" << std::endl;
+        exit(1);
+    }
+    const char* input_img = argv[1];
+    const char* out_img = argv[2];
+
+    float pan = std::stof(argv[3]);
+    float tilt = std::stof(argv[4]);
+
+    printf("Args : %s %s %f %f \n", input_img, out_img, pan, tilt);
+
+    Equi2Rect equi2rect(280.0, 0.0);
 
     equi2rect.img_src = cv::imread("../images/london.jpg", cv::IMREAD_COLOR);
     if (equi2rect.img_src.empty())
