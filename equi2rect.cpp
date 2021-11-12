@@ -15,19 +15,19 @@ public:
     Equi2Rect()
     {
         // viewport size
-        w = 960;
-        h = 1080;
+        w = 1280;
+        h = 720;
 
         //specify viewing direction
-        yaw = radians(20.0);   //pan
-        pitch = radians(10.0); //tilt
+        yaw = radians(90.0);   //pan
+        pitch = radians(0.0); //tilt
         roll = radians(0.0);
 
         //create rotation matrix
         Rot = eul2rotm(pitch, yaw, roll);
 
         //specify focal length of the final pinhole image
-        f = 672;
+        f = 800;
 
         // create camera matrix K
         K = (cv::Mat_<double>(3, 3) << f, 0, w / 2,
@@ -166,7 +166,7 @@ int main(int argc, const char **argv)
 
     Equi2Rect equi2rect;
 
-    equi2rect.img_src = cv::imread("../images/pano.jpg", cv::IMREAD_COLOR);
+    equi2rect.img_src = cv::imread("../images/london.jpg", cv::IMREAD_COLOR);
     if (equi2rect.img_src.empty())
     {
         std::cout << "Error: Could not load image!" << std::endl;
@@ -178,21 +178,7 @@ int main(int argc, const char **argv)
 
     printf("Time taken: %.2fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
 
-    cv::imwrite("../images/pano_rect.jpg", equi2rect.img_interp);
-
-#if ENABLE_LOG
-    cv::namedWindow("image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("image", equi2rect.img_src);
-    cv::waitKey(0);
-    cv::destroyWindow("image");
-#endif
-
-#if ENABLE_LOG
-    cv::namedWindow("projected image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("projected image", equi2rect.img_interp);
-    cv::waitKey(0);
-    cv::destroyWindow("projected image");
-#endif
+    cv::imwrite("../images/output.jpg", equi2rect.img_interp);
 
     return 0;
 }
